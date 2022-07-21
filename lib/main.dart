@@ -39,34 +39,53 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text('Animated Progress Button'),
         centerTitle: true,
       ),
-      body: Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.all(32),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            textStyle: TextStyle(fontSize: 24),
-            minimumSize: Size.fromHeight(72),
-            shape: StadiumBorder(),
-          ),
-          child: isLoading
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(color: Colors.white),
-                    const SizedBox(width: 24),
-                    Text('Please wait'),
-                  ],
-                )
-              : Text('Login'),
-          onPressed: () async {
-            if (isLoading) return;
-
-            setState(() => isLoading = true);
-            await Future.delayed(Duration(seconds: 5));
-            setState(() => isLoading = false);
-          },
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: buttonsColumnBodyPage(),
     );
+  }
+
+  Widget buttonsColumnBodyPage() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        buildFirstButton(),
+        SizedBox(height: 40),
+        buildSecondButton(),
+      ],
+    );
+  }
+
+  Widget buildFirstButton() {
+    return Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.all(32),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          textStyle: TextStyle(fontSize: 24),
+          minimumSize: Size.fromHeight(72),
+          shape: StadiumBorder(),
+        ),
+        child: isLoading
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(color: Colors.white),
+                  const SizedBox(width: 24),
+                  Text('Please wait'),
+                ],
+              )
+            : Text('Login'),
+        onPressed: () async {
+          if (isLoading) return;
+
+          setState(() => isLoading = true);
+          await Future.delayed(Duration(seconds: 5));
+          setState(() => isLoading = false);
+        },
+      ),
+    ); // Thi
+  }
+
+  buildSecondButton() {
+    return Container();
   }
 }
