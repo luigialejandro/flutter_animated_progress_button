@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -29,11 +30,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Animated Progress Button'),
+        centerTitle: true,
       ),
       body: Container(
         alignment: Alignment.center,
@@ -44,8 +48,23 @@ class _MyHomePageState extends State<MyHomePage> {
             minimumSize: Size.fromHeight(72),
             shape: StadiumBorder(),
           ),
-          child: Text('Login'),
-          onPressed: () {},
+          child: isLoading
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(color: Colors.white),
+                    const SizedBox(width: 24),
+                    Text('Please wait'),
+                  ],
+                )
+              : Text('Login'),
+          onPressed: () async {
+            if (isLoading) return;
+
+            setState(() => isLoading = true);
+            await Future.delayed(Duration(seconds: 5));
+            setState(() => isLoading = false);
+          },
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
